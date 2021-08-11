@@ -8,12 +8,17 @@ import { relativePathPlugin } from './plugins/relative-path-plugin';
 import { replacePlugin } from './plugins/replace-plugin';
 import { writePkgJson } from '../utils/write-pkg-json';
 import type { BuildOptions } from '../utils/options';
-import type { RollupOptions, OutputChunk, Plugin } from 'rollup';
+import type { RollupOptions, OutputChunk, Plugin, PartialResolvedId } from 'rollup';
 import { minify } from 'terser';
 import ts from 'typescript';
 import { getBanner } from '../utils/banner';
 import { contentTypesPlugin } from './plugins/content-types-plugin';
 
+/**
+ * Generates a rollup configuration for the `dev-server` directory of the project
+ * @param opts the options being used during a build of the Stencil compiler
+ * @returns an array containing the generated rollup options
+ */
 export async function devServer(opts: BuildOptions) {
   const inputDir = join(opts.buildDir, 'dev-server');
 
@@ -64,7 +69,13 @@ export async function devServer(opts: BuildOptions) {
     contentTypesPlugin(opts),
     {
       name: 'devServerWorkerResolverPlugin',
-      resolveId(importee) {
+      /**
+       * A rollup build hook for resolving open-in-editor capabilities
+       * [Source](https://rollupjs.org/guide/en/#resolveid)
+       * @param importee the importee exactly as it is written in an import statement in the source code
+       * @returns a resolution to an import to a different id
+       */
+      resolveId(importee: string): PartialResolvedId | null {
         if (importee.includes('open-in-editor-api')) {
           return {
             id: './open-in-editor-api.js',
