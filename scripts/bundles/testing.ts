@@ -11,6 +11,7 @@ import { writePkgJson } from '../utils/write-pkg-json';
 import { RollupOptions, OutputOptions } from 'rollup';
 import { prettyMinifyPlugin } from './plugins/pretty-minify';
 import { getBanner } from '../utils/banner';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 export async function testing(opts: BuildOptions) {
   const inputDir = join(opts.buildDir, 'testing');
@@ -67,6 +68,7 @@ export async function testing(opts: BuildOptions) {
     dir: opts.output.testingDir,
     esModule: false,
     preferConst: true,
+    sourcemap: true,
   };
 
   const testingBundle: RollupOptions = {
@@ -103,6 +105,7 @@ export async function testing(opts: BuildOptions) {
         preferConst: true,
       }),
       prettyMinifyPlugin(opts, getBanner(opts, `Stencil Testing`, true)),
+      sourcemaps(),
     ],
     treeshake: {
       moduleSideEffects: false,

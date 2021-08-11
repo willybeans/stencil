@@ -10,6 +10,7 @@ import { rollup, RollupOptions } from 'rollup';
 import glob from 'glob';
 import ts from 'typescript';
 import { minify } from 'terser';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 export async function internalClient(opts: BuildOptions) {
   const inputClientDir = join(opts.buildDir, 'client');
@@ -39,6 +40,7 @@ export async function internalClient(opts: BuildOptions) {
       chunkFileNames: '[name].js',
       banner: getBanner(opts, 'Stencil Client Platform'),
       preferConst: true,
+      sourcemap: true,
     },
     treeshake: {
       moduleSideEffects: 'no-external',
@@ -56,6 +58,7 @@ export async function internalClient(opts: BuildOptions) {
       aliasPlugin(opts),
       replacePlugin(opts),
       reorderCoreStatementsPlugin(),
+      sourcemaps(),
     ],
   };
 

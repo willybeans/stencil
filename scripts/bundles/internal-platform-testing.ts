@@ -8,6 +8,7 @@ import { BuildOptions } from '../utils/options';
 import { writePkgJson } from '../utils/write-pkg-json';
 import { RollupOptions, OutputOptions } from 'rollup';
 import { prettyMinifyPlugin } from './plugins/pretty-minify';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 export async function internalTesting(opts: BuildOptions) {
   const inputTestingPlatform = join(opts.buildDir, 'testing', 'platform', 'index.js');
@@ -31,6 +32,7 @@ export async function internalTesting(opts: BuildOptions) {
     banner: getBanner(opts, 'Stencil Testing Platform'),
     esModule: false,
     preferConst: true,
+    sourcemap: true,
   };
 
   const internalTestingPlatformBundle: RollupOptions = {
@@ -52,6 +54,7 @@ export async function internalTesting(opts: BuildOptions) {
       replacePlugin(opts),
       reorderCoreStatementsPlugin(),
       prettyMinifyPlugin(opts),
+      sourcemaps(),
     ],
   };
 

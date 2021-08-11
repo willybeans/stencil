@@ -8,6 +8,7 @@ import { replacePlugin } from './plugins/replace-plugin';
 import { BuildOptions } from '../utils/options';
 import { writePkgJson } from '../utils/write-pkg-json';
 import { RollupOptions } from 'rollup';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 export async function screenshot(opts: BuildOptions) {
   const inputScreenshotDir = join(opts.buildDir, 'screenshot');
@@ -43,6 +44,7 @@ export async function screenshot(opts: BuildOptions) {
       dir: opts.output.screenshotDir,
       esModule: false,
       preferConst: true,
+      sourcemap: true,
     },
     external,
     plugins: [
@@ -53,6 +55,7 @@ export async function screenshot(opts: BuildOptions) {
       }),
       rollupCommonjs(),
       replacePlugin(opts),
+      sourcemaps(),
     ],
     treeshake: {
       moduleSideEffects: false,

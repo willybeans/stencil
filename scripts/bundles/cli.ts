@@ -10,6 +10,7 @@ import { BuildOptions } from '../utils/options';
 import { RollupOptions, OutputOptions } from 'rollup';
 import { writePkgJson } from '../utils/write-pkg-json';
 import { getBanner } from '../utils/banner';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 /**
  * Generates a rollup configuration for the `cli` submodule
@@ -28,6 +29,7 @@ export async function cli(opts: BuildOptions): Promise<readonly RollupOptions[]>
     format: 'es',
     file: join(outputDir, esmFilename),
     preferConst: true,
+    sourcemap: true,
     banner: getBanner(opts, `Stencil CLI`, true),
   };
 
@@ -36,6 +38,7 @@ export async function cli(opts: BuildOptions): Promise<readonly RollupOptions[]>
     format: 'cjs',
     file: join(outputDir, cjsFilename),
     preferConst: true,
+    sourcemap: true,
     banner: getBanner(opts, `Stencil CLI (CommonJS)`, true),
   };
 
@@ -69,6 +72,7 @@ export async function cli(opts: BuildOptions): Promise<readonly RollupOptions[]>
         preferConst: true,
       }),
       replacePlugin(opts),
+      sourcemaps(),
     ],
     treeshake: {
       moduleSideEffects: false,

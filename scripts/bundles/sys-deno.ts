@@ -6,6 +6,7 @@ import { RollupOptions } from 'rollup';
 import { prettyMinifyPlugin } from './plugins/pretty-minify';
 import { replacePlugin } from './plugins/replace-plugin';
 import { denoStdPlugin } from './plugins/deno-std-plugin';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 export async function sysDeno(opts: BuildOptions) {
   const inputFile = join(opts.buildDir, 'sys', 'deno', 'index.js');
@@ -18,6 +19,7 @@ export async function sysDeno(opts: BuildOptions) {
       file: outputFile,
       preferConst: true,
       freeze: false,
+      sourcemap: true,
     },
     plugins: [replacePlugin(opts), aliasPlugin(opts), prettyMinifyPlugin(opts, getDenoBanner()), denoStdPlugin(opts)],
     treeshake: {
@@ -36,6 +38,7 @@ export async function sysDeno(opts: BuildOptions) {
       file: outputWorkerFile,
       preferConst: true,
       freeze: false,
+      sourcemap: true,
     },
     plugins: [
       {
@@ -52,6 +55,7 @@ export async function sysDeno(opts: BuildOptions) {
       replacePlugin(opts),
       aliasPlugin(opts),
       prettyMinifyPlugin(opts, getDenoBanner()),
+      sourcemaps(),
     ],
   };
 

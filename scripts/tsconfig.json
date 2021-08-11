@@ -14,7 +14,8 @@
     "outDir": "build/",
     "pretty": true,
     "target": "es2017",
-    "incremental": true
+    "incremental": true,
+    "sourceMap": true,
   },
   "include": [
     "**/*.ts"

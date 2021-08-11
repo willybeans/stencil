@@ -11,6 +11,7 @@ import { aliasPlugin } from './plugins/alias-plugin';
 import { prettyMinifyPlugin } from './plugins/pretty-minify';
 import { writePkgJson } from '../utils/write-pkg-json';
 import { getBanner } from '../utils/banner';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 export async function sysNode(opts: BuildOptions) {
   const inputDir = join(opts.buildDir, 'sys', 'node');
@@ -37,6 +38,7 @@ export async function sysNode(opts: BuildOptions) {
       file: outputFile,
       preferConst: true,
       freeze: false,
+      sourcemap: true,
     },
     external: ['child_process', 'crypto', 'events', 'https', 'path', 'readline', 'os', 'util'],
     plugins: [
@@ -51,6 +53,7 @@ export async function sysNode(opts: BuildOptions) {
         transformMixedEsModules: false,
       }),
       prettyMinifyPlugin(opts, getBanner(opts, `Stencil Node System`, true)),
+      sourcemaps(),
     ],
     treeshake: {
       moduleSideEffects: false,

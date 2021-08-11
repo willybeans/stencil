@@ -10,6 +10,7 @@ import rollupResolve from '@rollup/plugin-node-resolve';
 import { writePkgJson } from '../utils/write-pkg-json';
 import { RollupOptions } from 'rollup';
 import { prettyMinifyPlugin } from './plugins/pretty-minify';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 
 export async function internalHydrate(opts: BuildOptions) {
   const inputHydrateDir = join(opts.buildDir, 'hydrate');
@@ -37,6 +38,7 @@ export async function internalHydrate(opts: BuildOptions) {
       chunkFileNames: '[name].js',
       banner: getBanner(opts, 'Stencil Hydrate Platform'),
       preferConst: true,
+      sourcemap: true,
     },
     plugins: [
       {
@@ -54,6 +56,7 @@ export async function internalHydrate(opts: BuildOptions) {
       }),
       rollupCommonjs(),
       prettyMinifyPlugin(opts),
+      sourcemaps(),
     ],
   };
 
