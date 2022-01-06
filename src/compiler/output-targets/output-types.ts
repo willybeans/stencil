@@ -1,12 +1,15 @@
 import type * as d from '../../declarations';
 import { generateTypes } from '../types/generate-types';
-import { isOutputTargetDistTypes } from './output-utils';
+import { isOutputTargetDistTypes, isOutputTargetDistCustomElements } from './output-utils';
 
 export const outputTypes = async (config: d.Config, compilerCtx: d.CompilerCtx, buildCtx: d.BuildCtx) => {
-  const outputTargets = config.outputTargets.filter(isOutputTargetDistTypes);
-  if (outputTargets.length === 0) {
+  const outputTargetDistTypes = config.outputTargets.filter(isOutputTargetDistTypes );
+  const outputTargetDistCustomElements = config.outputTargets.filter(isOutputTargetDistCustomElements );
+
+  if (outputTargetDistTypes.length === 0 && outputTargetDistCustomElements.length == 0) {
     return;
   }
+  const outputTargets = [...outputTargetDistTypes, ...outputTargetDistCustomElements];
 
   const timespan = buildCtx.createTimeSpan(`generate types started`, true);
 

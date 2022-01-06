@@ -10,7 +10,7 @@ export const generateTypes = async (
   config: d.Config,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetDistTypes
+  outputTarget: d.OutputTargetDistTypes | d.OutputTargetDistCustomElements
 ) => {
   if (!buildCtx.hasError) {
     await generateTypesOutput(config, compilerCtx, buildCtx, outputTarget);
@@ -22,7 +22,7 @@ const generateTypesOutput = async (
   config: d.Config,
   compilerCtx: d.CompilerCtx,
   buildCtx: d.BuildCtx,
-  outputTarget: d.OutputTargetDistTypes
+  outputTarget: d.OutputTargetDistTypes | d.OutputTargetDistCustomElements
 ) => {
   const srcDirItems = await compilerCtx.fs.readdir(config.srcDir, { recursive: false });
   const srcDtsFiles = srcDirItems.filter((srcItem) => srcItem.isFile && isDtsFile(srcItem.absPath));
