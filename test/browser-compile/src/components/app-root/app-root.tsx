@@ -183,7 +183,7 @@ export class AppRoot {
       }
 
       this.preview();
-    } catch (e: any) {
+    } catch (e) {
       // TODO(STENCIL-371): Update typings for `e` to be more narrow than `any`
       this.bundledInput.value = e;
       if (e.loc && e.loc.file) {
