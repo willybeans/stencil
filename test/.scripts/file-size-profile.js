@@ -45,9 +45,18 @@ function getBuildFileSize(filePath) {
   try {
     if (filePath.endsWith('css')) {
       return null;
+    } else if (fs.lstatSync(filePath).isDirectory()) {
+      return null;
     }
 
-    const content = fs.readFileSync(filePath);
+    let content = '';
+    try {
+      content = fs.readFileSync(filePath);
+    } catch (error) {
+      console.error(`Unable to read file ${filePath}: ${error}`);
+      return null;
+    }
+
     let fileName = path.basename(filePath);
 
     let brotliSize;
