@@ -12,7 +12,7 @@
     "build.hello-vdom": "cd ./hello-vdom && npm run build",
     "TODO-STENCIL-388": "echo Remove the exit call below",
     "build.ionic": "exit 0 && cd ./ionic-app && npm run build",
-    "build.todo": "cd ./todo-app && npm run build"
+    "build.todo": "cd ./todo-app && npm ci && npm run build"
   },
   "devDependencies": {
     "brotli": "^1.3.2"
